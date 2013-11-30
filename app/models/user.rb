@@ -13,7 +13,13 @@ class User < ActiveRecord::Base
  	validates :username, uniqueness: true, presence: true
  	validates :email, uniqueness: true, presence: true
 
-
+def following? user
+    self.followeds.include? user
+end
+ 
+def follow user
+    Relationship.create follower_id: self.id, followed_id: user.id
+end
 
 
 
@@ -25,14 +31,5 @@ end
 def create_avatar_hash
     self.avatar_hash = "http://www.gravatar.com/avatar/#{Digest::MD5.hexdigest(self.email)}?s=50"
 end
-def following? user
-    self.followeds.include? user
-end
- 
-def follow user
-    Relationship.create follower_id: self.id, followed_id: user.id
-end
-
-
 
 end

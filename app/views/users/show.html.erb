@@ -1,74 +1,47 @@
 <% if current_user %>
-<div id="createLog">
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Create a Log</h3>
-  </div>
-  <div class="panel-body">
-    <%= form_for @log do |f| %>
-        <%= f.text_field :when, class: 'form-control' %>
-        <%= f.text_field :address, class: 'form-control' %>
-        <%= f.text_field :address_2, class: 'form-control' %>
-        <%= f.text_field :city, class: 'form-control' %>
-        <%= f.text_field :state, class: 'form-control' %>
-        <%= f.text_field :zip, class: 'form-control' %>
-        <%= f.text_field :title, class: 'form-control' %>
-        <%= f.text_field :media_type, class: 'form-control' %>
-        <%= f.text_field :category, class: 'form-control' %>
-        <%= f.text_area :description, class: 'form-control' %>
-        <%= f.submit "Submit Log" %>
-      <% end %>
-  </div>
-</div>
-</div>
+<img class="avatar" src='<%= @user.avatar_hash %>'>
+<span><strong><%= @user.name %> </span> @<%= @user.username %></strong>
+
+<p><%= @user.logs.size %> Logs
+<span class="spacing"><%= @user.followers.count %> Followers</span>
+<span class="spacing"> <%= @user.followeds.count %> Following</span>
+</p>
+<% if current_user && @user != current_user %>
+  <% if current_user.following? @user %>
+    <%= form_tag relationship_path(@relationship), method: :delete do %>
+    <%= submit_tag "Unfollow" %>
+    <% end %>
+  <% else %>
+    <%= form_for @relationship do %>
+    <%= hidden_field_tag :followed_id, @user.id %>
+    <%= submit_tag "Follow" %>
+    <% end %>
+  <% end %>
 <% end %>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">My Library</h3>
-    </div>
+
+<h3>Logs</h3>
+<div id="logs" class="transitions-enabled">
+  <% @user.logs.each do |log| %>
+  <div class="box panel panel-default">
     <div class="panel-body">
-      <img class="avatar" src='<%= @user.avatar_hash %>'>
-        <span><strong><%= @user.name %> </span> @<%= @user.username %></strong>
-        <p>
-         <%= @user.logs.size %> Logs
-        <span class="spacing"><%= @user.followers.count %> Followers</span>
-        <span class="spacing"> @user.followeds.count %> Following</span>
-        </p>
-        <% if current_user && @user != current_user %>
-            <% if current_user.following? @user %>
-                <%= form_tag relationship_path(@relationship), method: :delete do %>
-                    <%= submit_tag "Unfollow" %>
-                <% end %>
-            <% else %>
-                <%= form_for @relationship do %>
-                    <%= hidden_field_tag :followed_id, @user.id %>
-                    <%= submit_tag "Follow" %>
-                <% end %>
-            <% end %>
+      <p><%= log.title %></p>
+        <p><%= log.description %> </p>
+        <p><a href="<%= user_path log.user %>">
+        <span class="name"><%= @user.name %></span></a>
+        <span class="spacing"> @<%= @user.username %></span>
+      </p>
+    
+    <%= link_to 'Show', log_path(log) %>
+      <% if log.user == current_user %>
+        <%= link_to 'Edit', edit_log_path(log) %>
+        <%= link_to 'Destroy', log, method: :delete, data: { confirm: 'Are you sure?' } %>
         <% end %>
+      
     </div>
-</div>
-
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Logs</h3>
   </div>
-  <div class="panel-body">
-    <div class="well"><% @user.logs.each do |log| %>
-            <a href="<%= user_path log.user %>">
-            <span class="name"><%= @user.name %></span>
-            </a>
-              <span class="spacing"> @<%= @user.username %></span>
-               <span class="time"><%= time_ago_in_words(log.created_at) %></span>
-                <p><%= log.when %> </p>
-                <p><%= log.address %> </p>
-                <p><%= log.address_2 %> </p>
-                <p><%= log.city %> <%= log.state %> <%= log.zip %> </p>
-                <p><%= log.title %> </p>
-                <p><%= log.description %> </p>
-
-        <% end %>
-            
+<% end %>
 </div>
-  </div>
+ <% end %>
+
+

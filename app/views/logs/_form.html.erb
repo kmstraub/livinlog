@@ -1,0 +1,49 @@
+<%= form_for @log do |f| %>
+  <% if @log.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@log.errors.count, "error") %> prohibited this log from being saved:</h2>
+      <ul>
+      <% @log.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+        <%= f.text_field :when, placeholder: "Date", class: 'form-control' %>
+  </div>
+  <div class="form-group">
+        <%= f.text_field :address, placeholder: "Address", class: 'form-control' %>
+  </div>
+  <div class="form-group">
+        <%= f.text_field :address_2, placeholder: "Address 2", class: 'form-control' %>
+  </div>
+  <div class="form-group">
+        <%= f.text_field :city, placeholder: "City", class: 'form-control' %>
+  </div>
+  <div class="form-group">
+        <%= f.text_field :state, placeholder: "State", class: 'form-control' %>
+  </div>
+  <div class="form-group">
+        <%= f.text_field :zip, placeholder: "Zip", class: 'form-control' %>
+  </div>
+  <div class="form-group">
+        <%= f.text_field :title, placeholder: "Title", class: 'form-control' %>
+  </div>
+  <div class="form-group">
+        <%= f.text_field :media_type, placeholder: "Media Type", class: 'form-control' %>
+  </div>
+  <div class="form-group">
+        <%= f.text_field :category, placeholder: "Category", class: 'form-control' %>
+  </div>
+  <div class="form-group">
+        <%= f.text_area :description, placeholder: "Description", class: 'form-control' %>
+  </div>
+  <div class="form-group">
+        <%= f.submit class: "btn btn-primary" %>
+  </div>
+      <% end %>
+
+
+

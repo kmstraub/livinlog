@@ -1,30 +1,17 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Libraries</h3>
+<% if current_user %>
+<h3 class="panel-title">Libraries</h3>
+<div id="logs" class="trasitions-enabled">
+  <% @users.each do |user| %>
+  <div class="box panel panel-default">
+    <div class="panel-body">
+      <p><img id="avatar" src='<%= user.avatar_hash %>'><a href="<%= user_path user %>"><%= user.name %></a>  
+  	</div>
   </div>
-  <div class="panel-body">
-    <div><% @users.each do |user| %>
-            <a href="<%= user_path user %>">
-            <span class="name"><%= user.name %></span>
-            </a>
-              <span class="spacing"> @<%= user.username %></span>
-               <span class="spacing"><%= user.logs.size %> Logs</span>
-            <span class="spacing"><%= user.followers.count %>Followers</span>
-            <span class="spacing"> <%= user.followeds.count %>Following</span>
-            </p>
-            <% if user.logs.first %>
-            <div class="well">
-               <p><%= user.logs.first.when %> </p>
-                <p><%= user.logs.first.title %> </p>
-                <p><%= user.logs.first.description %> </p>
-            </div>
-        <% end %>
-   
- 
-   <% end %>
-</div>
+  	<% end %>
   </div>
-</div>
+  <% end %>
+
+
 
 
 
